@@ -1,0 +1,42 @@
+# Virtual environments
+venv/
+venv-clean/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.class
+
+# Test and tooling cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated data
+data/
+outputs/
+artifacts/
+
+# Jupyter
+.ipynb_checkpoints/

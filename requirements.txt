@@ -1,0 +1,30 @@
+# Web API
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Data processing and analytical engine
+duckdb
+pyarrow
+polars
+pandas
+
+# PII detection and anonymization
+presidio-analyzer
+presidio-anonymizer
+spacy
+
+# Scientific computing and machine learning
+scipy
+lightgbm
+shap
+
+# Background jobs and distributed execution
+celery
+redis
+
+# Validation and structured data models
+pydantic
+
+# LLM integration
+openai
