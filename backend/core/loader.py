@@ -199,7 +199,13 @@ class DataEngine:
         if file_format == "csv":
             query = (
                 f"CREATE OR REPLACE VIEW {table_name} AS "
-                f"SELECT * FROM read_csv_auto('{escaped_path}')"
+                f"SELECT * FROM read_csv("
+                f"'{escaped_path}', "
+                f"delim=',', "
+                f"quote='', "
+                f"header=True, "
+                f"strict_mode=False"
+                f")"
             )
 
         elif file_format == "parquet":

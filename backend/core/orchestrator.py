@@ -169,6 +169,20 @@ class NexusOrchestrator:
         "quality",
     )
 
+    RELATIONSHIP_TERMS = (
+        "relationship",
+        "relationships",
+        "correlation",
+        "correlations",
+        "correlate",
+        "correlated",
+        "associated with",
+        "association",
+        "associations",
+        "relationship between",
+        "relationship among",
+    )
+
     DEEP_ANALYSIS_TERMS = (
         "deep analysis",
         "deep dive",
@@ -176,8 +190,6 @@ class NexusOrchestrator:
         "analyse",
         "analysis",
         "insights",
-        "relationships",
-        "correlation",
         "patterns",
         "trend",
         "trends",
@@ -363,15 +375,21 @@ class NexusOrchestrator:
 
         if self._contains_any(
             objective,
-            self.QUERY_TERMS,
-        ):
-            return "query"
-
-        if self._contains_any(
-            objective,
             self.REPAIR_TERMS,
         ):
             return "repair"
+
+        if self._contains_any(
+            objective,
+            self.RELATIONSHIP_TERMS,
+        ):
+            return "relationship_analysis"
+
+        if self._contains_any(
+            objective,
+            self.QUERY_TERMS,
+        ):
+            return "query"
 
         if self._contains_any(
             objective,
@@ -642,6 +660,15 @@ class NexusOrchestrator:
         )
 
         if (
+            objective_type == "relationship_analysis"
+            and intelligence_capable
+        ):
+            intelligence_status = TierStatus.EXECUTE
+            intelligence_reason = (
+                "The objective explicitly requests relationship analysis "
+                "and the dataset supports analytical relationship analysis."
+            )
+        elif (
             objective_type == "deep_analysis"
             and intelligence_capable
         ):
@@ -672,7 +699,6 @@ class NexusOrchestrator:
                 "The dataset does not currently expose sufficient "
                 "capability for the intelligence tier."
             )
-
         decisions.append(
             TierDecision(
                 tier=AnalysisTier.INTELLIGENCE,

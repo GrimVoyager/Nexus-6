@@ -3,9 +3,11 @@ from __future__ import annotations
 import json
 
 import pyarrow as pa
+import pytest
 
 from backend.core.intelligence import DatasetIntelligence
 from backend.core.loader import DataEngine
+
 
 
 def create_test_table() -> pa.Table:
@@ -101,6 +103,23 @@ def create_test_table() -> pa.Table:
             ],
         }
     )
+
+@pytest.fixture
+def profile() -> dict:
+    table = create_test_table()
+
+    with DataEngine() as engine:
+        engine.register_arrow(
+            "dataset",
+            table,
+        )
+
+        intelligence = DatasetIntelligence(
+            engine,
+            table_name="dataset",
+        )
+
+        return intelligence.build_profile()
 
 
 def find_column(

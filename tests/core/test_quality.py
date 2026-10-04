@@ -6,7 +6,7 @@ import pyarrow as pa
 
 from backend.core.loader import DataEngine
 from backend.core.quality import DataQualityAnalyzer
-
+import pytest
 
 def create_test_table() -> pa.Table:
     return pa.table(
@@ -98,6 +98,22 @@ def create_test_table() -> pa.Table:
         }
     )
 
+@pytest.fixture
+def report() -> dict:
+    table = create_test_table()
+
+    with DataEngine() as engine:
+        engine.register_arrow(
+            "dataset",
+            table,
+        )
+
+        analyzer = DataQualityAnalyzer(
+            engine,
+            table_name="dataset",
+        )
+
+        return analyzer.build_report()
 
 def find_column(
     report: dict,

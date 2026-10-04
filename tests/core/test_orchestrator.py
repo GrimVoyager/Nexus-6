@@ -249,6 +249,39 @@ def test_query_objective() -> None:
     finally:
         engine.close()
 
+def test_relationship_analysis_objective() -> None:
+    dataset_path = create_dataset()
+
+    engine, evidence = build_evidence(
+        dataset_path
+    )
+
+    try:
+        orchestrator = NexusOrchestrator()
+
+        plan = orchestrator.orchestrate(
+            evidence=evidence,
+            request=OrchestrationRequest(
+                objective="Find salary relationships."
+            ),
+        )
+
+        query = plan.get_tier_decision(1)
+        intelligence = plan.get_tier_decision(5)
+
+        assert query is not None
+        assert intelligence is not None
+
+        assert query.status == "NOT_APPLICABLE"
+        assert intelligence.status == "EXECUTE"
+
+        assert (
+            "relationship analysis"
+            in intelligence.reason.lower()
+        )
+
+    finally:
+        engine.close()
 
 def test_deep_analysis_objective() -> None:
     dataset_path = create_dataset()
